@@ -1,0 +1,69 @@
+
+<html data-ng-app = 'main'>
+
+<head>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+
+<script type="text/javascript" src="javascript/angular.js"></script>
+<script type="text/javascript" src="javascript/angular-file-upload.min.js"></script>
+<script type="text/javascript" src="javascript/controller.js"></script>
+<script type="text/javascript" src="javascript/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="javascript/ng-csv.min.js"></script>
+<script type="text/javascript" src="javascript/angular-sanitize.js"></script>
+<script type="text/javascript" src="javascript/ng-table.js"></script>
+<script type="text/javascript" src="javascript/xtForm.js"></script>
+<script type="text/javascript" src="javascript/bootstrap-tooltip.js"></script>
+<style>
+input.ng-dirty.ng-valid{border-color:green; }
+input.ng-dirty.ng-invalid{border-color:#e74c3c;}
+</style>
+</head>
+
+<body data-ng-controller="MyController" class="container" style="background-image:url('img.jpg'	)">
+	<div class="well">
+		<div class="page-header">
+			<h1> <span class="glyphicon glyphicon-tower"> </span> Varian Users Database </h1>
+		</div>
+  				
+
+		<!--Division for adding users to database-->
+		<div>
+			<h3>Save patient name</h3>
+			 <form name="myForm"  data-ng-submit="SendToServer(name)">
+    				Patient Name : <input type="text" name="userName"  ng-model="name" ng-minlength="3" ng-maxlength="30" required>
+    				<span class="error" data-ng-show="myForm.userName.$error.required && myForm.userName.$dirty"> Required!</span>
+  					<span class="error" data-ng-show="myForm.userName.$error.minlength"> Too short!</span>
+   				    <span class="error" data-ng-show="myForm.userName.$error.maxlength"> Too long!</span><br>
+					<button type="Submit" class="btn btn-success btn-lg btn-block" data-ng-disabled="myForm.$invalid">SAVE</button>
+			</form>
+		</div>
+
+		<!--Division for retrieving users from database-->
+		<div>
+			<br> <br>
+			<h3>Load patient name</h3>
+			<button data-ng-click="LoadFromServer()" class="btn btn-success btn-lg btn-block">LOAD</button>
+			<br> <br>
+			<div ng-show= "show">
+			<!--Display logic-->
+			<strong>Total number of patients in database : 	{{Mydata.length}}</strong><br>
+			<strong>Search for patient: <input type="text" data-ng-model ="query" class="span2 search-query"> </strong> 
+			<br> <br>
+			<table class="CSSTableGenerator">
+				<tr><th>Names of Patients</th></tr>
+      			<tr data-ng-repeat="f in Mydata| filter:query">
+        	    	<td>{{f.name}}</td>	 
+        		</tr>
+       		</table>
+       			<br>
+       				<h4>Export This table as .csv file</h4>
+ 		 <div>
+   			 <button type="button" data-ng-csv="Mydata" data-ng-filename="test.csv">Export</button>
+		</div>
+		</div>
+		</div>
+		
+	</div>
+</body>
+</html>
+
